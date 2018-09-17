@@ -1,0 +1,93 @@
+function convertToRoman(num) {
+let count;
+let romanArr = [];
+ while (num > 0){
+   if (num >= 1000){
+     count = Math.floor(num/1000);
+     while (count != 0){
+       romanArr.push('M');
+       num -= 1000;
+       count--;
+     }
+   }
+   if (num >= 900){
+     romanArr.push('CM');
+     num -= 900;
+   }
+   if (num >= 600){
+     romanArr.push('DC');
+     num -= 600;
+   }
+   if (num >= 500){
+     romanArr.push('D');
+     num -= 500;
+     }
+   if (num >= 400){
+     romanArr.push('CD')
+     num -= 400;
+   }
+   if (num >= 100){
+     count = Math.floor(num/100);
+     while (count != 0){
+       romanArr.push('C');
+       num -= 100;
+       count--;
+   }
+ }
+   if (num >= 90) {
+     romanArr.push('XC');
+     num -= 90;
+   }
+   if (num >= 60) {
+     romanArr.push('LX');
+     num -= 60;
+   }
+   if (num >= 50) {
+     romanArr.push('L');
+     num -= 50;
+   }
+   if (num >= 40) {
+     romanArr.push('XL');
+     num -= 40;
+   }
+   if (num >= 10) {
+     count = Math.floor(num/10);
+     while (count != 0){
+       romanArr.push('X');
+       num -= 10;
+       count--;
+     }
+   }
+   if (num >= 9){
+     romanArr.push('IX');
+     num -= 9;
+   }
+   if (num >= 6) {
+     romanArr.push('VI');
+     num -= 6;
+   }
+   if (num >= 5) {
+     romanArr.push('V');
+     num -= 5;
+   }
+   if (num >= 4){
+     romanArr.push('IV');
+     num -= 4;
+   }
+   if (num >= 1){
+     count = Math.floor(num/1);
+     while (count != 0){
+       romanArr.push('I');
+       num -= 1;
+       count--;
+     }
+   }
+}
+return romanArr.join("");
+}
+console.log(convertToRoman(891));
+
+
+//This algorithm takes a number passed to the function and returns the roman numeral equivalent
+/* I have to start with the largest values for roman numerals and subtract them from the number 
+as I build an array of values representing the values I've subracted */
