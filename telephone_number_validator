@@ -1,0 +1,9 @@
+function telephoneCheck(str) {
+  // Good luck!
+  let phoneRegex = /^(1\s?)?(\(\d{3}\)|(\d){3})[\s-]?(\d){3}[\s-]?(\d){4}$/;
+  return phoneRegex.test(str);
+}
+
+telephoneCheck("555-555-5555");
+
+//This algorithm takes a phone number string and either accepts it as valid input based on a standardized input format, or rejects it//
