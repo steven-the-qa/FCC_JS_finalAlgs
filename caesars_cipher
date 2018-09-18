@@ -1,0 +1,29 @@
+function rot13(str) { // LBH QVQ VG!
+  let codedArr = str.split("");
+  let alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  let alphabetArr = alphabet.toUpperCase().split("");
+  let index;
+  let decoded = [];
+  for (let i in codedArr) {
+    let count = 13;
+    if (codedArr[i].charCodeAt() >= 65 && codedArr[i].charCodeAt() <= 90){
+      index = alphabetArr.indexOf(codedArr[i]);
+      if (index >= 13){
+        index -= count;
+      }
+      else if (index < 13){
+        index = 26 - Math.abs(index - count);
+      }
+      decoded.push(alphabetArr[index]);
+    }
+    else {
+    decoded.push(codedArr[i]);
+    }
+  }
+  return decoded.join("");
+}
+
+// Change the inputs below to test
+rot13("SERR PBQR PNZC");
+
+//Take an string encoded by Caesar's Cipher (shifted back 13 alphanumeric codes (e.g. A=1, B=2, etc.)), and return the decoded string
