@@ -1,0 +1,70 @@
+function checkCashRegister(price, cash, cid) {
+  
+  let result = {status: 'N/A', change: []};
+  let change = cash - price;
+  let changeArr = [];
+  let drawerTotal = 0;
+  let newDrawer = cid.reverse();
+  let hundred = 0;
+  let denArr = [100,20,10,5,1,.25,.10,.05,.01];
+
+
+  function getChange(den){
+
+    if (den > 8){ 
+      console.log(changeArr);
+      return changeArr;
+    }
+
+    else if (newDrawer[den][1] === 0) { 
+      den++;
+      getChange(den); 
+    }
+
+    else {  
+
+    let denomCount = Math.round((newDrawer[den][1]/denArr[den])*100)/100;
+    let denomValue = Math.round((denomCount * denArr[den])*100)/100;
+    let capacity = Math.round((change/denArr[den]) * 100)/100;
+//CREATE EXACT CHANGE ARRAY BELOW
+    
+    changeArr.push(newDrawer[den][0]); /* How many of a denomination can go into the change */
+
+//CREATE EXACT CHANGE ARRAY ABOVE
+      den++;
+      getChange(den); 
+  }
+  }
+//--------------------------------------------
+//--------------------------------------------
+//TEST CHANGE ARRAY FUNCTION
+getChange(hundred);
+//--------------------------------------------
+//--------------------------------------------
+//EVALUATING THE RESULTS FOR THE RESULT OBJECT
+
+  for (let i in cid){
+    drawerTotal += cid[i][1];
+    drawerTotal = Math.round(drawerTotal * 100)/100;
+  }
+
+  if (change > drawerTotal){
+    result.status = 'INSUFFICIENT_FUNDS';
+    result.change = [];
+  }
+
+  return result
+}
+
+// Example cash-in-drawer array:
+// [["PENNY", 1.01],
+// ["NICKEL", 2.05],
+// ["DIME", 3.1],
+// ["QUARTER", 4.25],
+// ["ONE", 90],
+// ["FIVE", 55],
+// ["TEN", 20],
+// ["TWENTY", 60],
+// ["ONE HUNDRED", 100]]
+
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
