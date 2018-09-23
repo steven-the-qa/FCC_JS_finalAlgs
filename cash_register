@@ -1,5 +1,5 @@
-function checkCashRegister(price, cash, cid){
-	let denArr = [
+function checkCashRegister(price, cash, cid) {
+ let denArr = [
 		{name: 'ONE HUNDRED', val: 100.00},
 		{name: 'TWENTY', val: 20.00},
 		{name: 'TEN', val: 10.00},
@@ -14,48 +14,46 @@ function checkCashRegister(price, cash, cid){
 	let result = {status: "", change: []};
 
 	let change = cash - price;
-  
-	let newDrawer = cid.reduce(function(acc, curr){
-		acc[curr[0]] = curr[1];
-		return acc
-	}, {total: 0}); 
-	
-	newDrawer.total = 0;
+
+	let cidCopy = [...cid.reverse()];
+	let newDrawer = [];
+	for (let i in cidCopy){
+		newDrawer.push([cidCopy[i][0], cidCopy[i][1]]);
+	}
+	let drawerTotal = 0;
+
 	let valuesArr = Object.values(newDrawer);
 	for (let i in valuesArr){
-		newDrawer.total += valuesArr[i];
+		drawerTotal += valuesArr[i][1];
 	}
-
-	if (newDrawer.total === change){
+drawerTotal = Math.round(drawerTotal*100)/100;
+	if (drawerTotal === change){
 		result.status = 'CLOSED';
-		result.change = cid;
+		result.change = newDrawer.reverse();
 		return result;
 	}
 
-	if (newDrawer.total < change){
+	if (drawerTotal < change){
 		result.status = 'INSUFFICIENT_FUNDS';
 		result.change = [];
 		return result;
 	}
 
-	let changeArr = denArr.reduce(function(acc, curr){
-		curr.val = Math.round(curr.val*100)/100;
+let changeArr = [];
+
+for (let i in denArr){
+		denArr[i].val = Math.round(denArr[i].val*100)/100;
 		let value = 0;
-		while (newDrawer[curr.name] > 0 && change >= curr.val){
-			change -= curr.val;
-			change = Math.round(change*100)/100;
-			newDrawer[curr.name] -= curr.val;
-			value += curr.val;
-
+		while (newDrawer[i][1] > 0 && change >= denArr[i].val){
+			change -= denArr[i].val; 
+			change = Math.round(change*100)/100; 
+			newDrawer[i][1] -= denArr[i].val; 
+			value += denArr[i].val;
 		}
-
 		if(value > 0){
-			acc.push([curr.name, value])
-		}
-
-		return acc;
-	}, [])
-
+			changeArr.push([denArr[i].name, value]) 
+		}; 
+	};
 
 	if(change > 0 || changeArr.length < 1){
 		result.status = 'INSUFFICIENT_FUNDS';
@@ -69,5 +67,4 @@ function checkCashRegister(price, cash, cid){
 
 }
 
-
-console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]));
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
