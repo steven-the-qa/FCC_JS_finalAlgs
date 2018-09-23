@@ -16,11 +16,15 @@ function checkCashRegister(price, cash, cid){
 	let change = cash - price;
   
 	let newDrawer = cid.reduce(function(acc, curr){
-		acc.total += curr[1];
 		acc[curr[0]] = curr[1];
-		acc.total = Math.round(acc.total*100)/100;
 		return acc
 	}, {total: 0}); 
+	
+	newDrawer.total = 0;
+	let valuesArr = Object.values(newDrawer);
+	for (let i in valuesArr){
+		newDrawer.total += valuesArr[i];
+	}
 
 	if (newDrawer.total === change){
 		result.status = 'CLOSED';
